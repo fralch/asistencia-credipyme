@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 
 export default function App() {
   const [permiso, fijarPermiso] = useState(null);
-  const [type, setType] = useState(CameraType.back);
+
+  const camaraRef = useRef(null);
+  const [foto, setFoto] = useState(null);
+
+  
 
   useEffect(() => {
     (async () => {
@@ -19,24 +23,28 @@ export default function App() {
   if (permiso === false) {
     return <Text>No tienes Acceso a la Camara</Text>;
   }
+
+  const tomarFoto = async () => {
+    if (camaraRef) {
+      const foto = await camaraRef.current.takePictureAsync();
+      setFoto(foto);
+      console.log(foto);
+    }
+  }; 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={CameraType.front}>
+      <Camera style={styles.camera} type={CameraType.front} ref={camaraRef} >
         <View style={styles.inputContendor}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setType(type === CameraType.back ? CameraType.front : CameraType.back);
-            }}>
-           
-            <Text style={styles.text}> Flip </Text>
-          </TouchableOpacity>
-          <TextInput
+        <TextInput
               style={styles.input}
-             
-              placeholder="useless placeholder"
+              placeholder="Ingresar DNI"
               keyboardType="numeric"
             />
+          <TouchableOpacity style={styles.button}>
+            {/* <Text style={styles.text} onPress={() => Alert.alert('Simple Button pressed')}> ENVIAR </Text>            */}
+            <Text style={styles.text} onPress={() => tomarFoto()}> ENVIAR </Text>           
+          </TouchableOpacity>
+          
         </View>
       </Camera>
     </View>
@@ -59,16 +67,23 @@ const styles = StyleSheet.create({
   button: {
     flex: 0.1,
     alignSelf: 'flex-end',
-    alignItems: 'center',
+
   },
   text: {
+    width: 100,
     fontSize: 18,
     color: 'white',
+    textAlign: 'center',
+    marginBottom: 20,
   },
   input: {
     height: 40,
+    width: 200,
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    borderColor: 'white',
+    alignSelf: 'flex-end',
+    backgroundColor: 'white',
   },
 });
