@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as FileSystem from 'expo-file-system';
 
 export default function App() {
   const [permiso, fijarPermiso] = useState(null);
   const [dni, fijarDni] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const camaraRef = useRef(null);
   const [foto, setFoto] = useState(null);
@@ -32,6 +33,7 @@ export default function App() {
       setFoto(foto);
       const base64 = await FileSystem.readAsStringAsync(foto.uri, { encoding: 'base64' });
       // console.log(base64);
+      setLoading(true);
       const response = await fetch('http://192.168.1.15/cre/cli/subir_imagen', {
         method: 'POST',
         headers: {
@@ -44,12 +46,22 @@ export default function App() {
         })
       });
       const rpt = await response.json();
-      console.log(rpt);
+      if (rpt == 1) {
+        alert('Foto Subida');
+      }
+      
     }
+    setLoading(false);
   };
   return (
-    <View style={styles.container}>
-      <Camera style={styles.camera} type={CameraType.front} ref={camaraRef} >
+    
+      loading ?   
+      <View style={[styles.container, styles.horizontal]}>
+        <ActivityIndicator />
+      </View>
+     : 
+      <View style={styles.container}> 
+       <Camera style={styles.camera} type={CameraType.front} ref={camaraRef} >
         <View style={styles.inputContendor}>
           <TextInput
             style={styles.input}
@@ -64,13 +76,18 @@ export default function App() {
 
         </View>
       </Camera>
-    </View>
+      </View>
+      
+      
+     
+    
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
   },
   camera: {
     flex: 1,
@@ -102,5 +119,10 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     alignSelf: 'flex-end',
     backgroundColor: 'white',
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
   },
 });
