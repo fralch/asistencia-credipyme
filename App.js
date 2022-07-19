@@ -34,7 +34,7 @@ export default function App() {
       const base64 = await FileSystem.readAsStringAsync(foto.uri, { encoding: 'base64' });
       // console.log(base64);
       setLoading(true);
-      const response = await fetch('http://192.168.1.15/cre/cli/subir_imagen', {
+      const response = await fetch('http://192.168.1.19/cre/cli/subir_imagen', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
