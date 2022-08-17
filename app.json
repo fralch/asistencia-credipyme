@@ -2,7 +2,7 @@
   "expo": {
     "name": "asistencia-credipyme",
     "slug": "asistencia-credipyme",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -25,7 +25,9 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.fralch.asistenciacredipyme"
+      "package": "com.fralch.asistenciacredipyme",
+      "permissions": [ "CAMERA", "WRITE_EXTERNAL_STORAGE", "READ_EXTERNAL_STORAGE", "ACCESS_FINE_LOCATION" ],
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
