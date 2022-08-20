@@ -3,8 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, ActivityIndicator 
 import { Camera, CameraType } from 'expo-camera';
 import * as FileSystem from 'expo-file-system';
 import * as Location from 'expo-location';
-import MapView from 'react-native-maps';
-import { Marker } from 'react-native-maps';
+
 
 export default function App() {
   const [permiso, fijarPermiso] = useState(null);
@@ -122,12 +121,8 @@ export default function App() {
             <Text style={styles.text} onPress={() => tomarFoto()}> ENVIAR </Text>
           </TouchableOpacity>
           <View style={styles.direccion}>  
-            <Text>{direccion}</Text>
-            <View>
-            <MapView>
-             
-            </MapView>
-            </View>
+            <Text style={styles.texto_direccion } >{direccion}</Text>
+           
           </View>
           
         </View>
@@ -183,5 +178,9 @@ const styles = StyleSheet.create({
   },
   direccion: {
     flex: 1,
-  }
+  },
+  texto_direccion:{
+    fontSize: 25,
+    fontWeight: "bold"
+  },
 });
