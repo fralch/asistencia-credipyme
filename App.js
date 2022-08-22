@@ -136,8 +136,8 @@ export default function App() {
                 region={{
                   latitude: latitud,
                   longitude: longitud,
-                  latitudeDelta: 0.005922,
-                  longitudeDelta: 0.005421,
+                  latitudeDelta: 0.0043,
+                  longitudeDelta: 0.0034,
                 }}
               > 
                 <Marker
